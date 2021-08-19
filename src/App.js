@@ -1,7 +1,15 @@
-import './App.css';
+import Header from './components/Header';
+import Hotels from './components/Hotels';
+import Menu from './components/Menu';
 
 function App() {
-  return <div className='App'>Siema</div>;
+  return (
+    <div className='App'>
+      <Header />
+      <Menu />
+      <Hotels />
+    </div>
+  );
 }
 
 export default App;

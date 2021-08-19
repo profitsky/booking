@@ -1,0 +1,12 @@
+.header {
+  height: 50px;
+  background-image: url('../../assets/images/header.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: pink;
+  padding: 80px 15px;
+}

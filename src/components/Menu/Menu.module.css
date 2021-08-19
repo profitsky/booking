@@ -1,0 +1,16 @@
+.menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+.menuItem {
+  display: inline-block;
+  text-align: center;
+}
+
+.menuContainer {
+  border: solid 1px crimson;
+  margin: 10px;
+}
