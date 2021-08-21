@@ -1,7 +1,5 @@
-import React from 'react';
-
 const Fragment = (props) => {
-  return props.children;
+  return <div className={props.className}>{props.children}</div>;
 };
 
 export default Fragment;
