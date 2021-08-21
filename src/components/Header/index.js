@@ -1,15 +1,9 @@
 import React from 'react';
 
-import SearchBar from './SearchBar/';
-
 import styles from './Header.module.css';
 
-const Header = () => {
-  return (
-    <header className={`${styles.header} +  container`}>
-      <SearchBar />
-    </header>
-  );
+const Header = (props) => {
+  return <header className={`${styles.header}`}>{props.children}</header>;
 };
 
 export default Header;

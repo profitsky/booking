@@ -2,33 +2,45 @@ import React from 'react';
 
 import styles from './Hotel.module.css';
 import img from '../../../assets/images/hotel.jpg';
+import PropTypes from 'prop-types';
 
-function Hotel() {
+function Hotel(props) {
   return (
-    <div className={`row ${styles.hotel}`}>
-      <div className='col-4'>
-        <img src={img} alt='hotel' className='img-fluid' />
-      </div>
-      <div className='col-8'>
+    <div className={`card ${styles.hotel}`}>
+      <div className='card-body'>
         <div className='row'>
-          <div className='col'>
-            <p>Tytuł</p>
-            <p>miasto</p>
+          <div className='col-4'>
+            <img src={img} alt='' className='img-fluid img-thumbnail' />
           </div>
-          <div className='col'>
-            <p>Ocena: 8.3</p>
-            <p>Opinie: 233</p>
+          <div className='col-8'>
+            <div className='row'>
+              <div className='col'>
+                <p className={styles.title}>{props.name}</p>
+                <span className='badge badge-light'>{props.city}</span>
+              </div>
+              <div className='col text-right'>
+                <h5>Ocena: {props.rating}</h5>
+                <a href='3' className='btn btn-primary mt-2 px-4'>
+                  Pokaż
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className='col-12'>
+            <p className={styles.description}>{props.description}</p>
           </div>
         </div>
-      </div>
-      <div className='col-12'>
-        <p>opis</p>
-        <a href='3' className='btn btn-primary'>
-          Pokaż
-        </a>
       </div>
     </div>
   );
 }
+
+Hotel.propTypes = {
+  name: PropTypes.string.isRequired,
+  city: PropTypes.string.isRequired,
+  rating: PropTypes.number.isRequired,
+  description: PropTypes.string.isRequired,
+};
 
 export default Hotel;
