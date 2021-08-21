@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import ThemeContex from '../../context/themeContext';
 
-const LoadingIcon = () => {
+const LoadingIcon = (props) => {
+  const theme = useContext(ThemeContex);
+
   return (
     <div className='d-flex justify-content-center'>
-      <div className='spinner-border' role='status'>
+      <div className={`spinner-border m-5 text-${theme.color}`} role='status'>
         <span className='sr-only'>Loading...</span>
       </div>
     </div>

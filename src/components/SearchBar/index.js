@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
+import ThemeContext from '../../context/themeContext';
 
 const SearchBar = (props) => {
   const [term, setTerm] = useState('');
+  const theme = useContext(ThemeContext);
 
   const updateTermHandler = (e) => {
     setTerm(e.target.value);
@@ -28,7 +30,7 @@ const SearchBar = (props) => {
         type='text'
         placeholder='search...'
       />
-      <button className='btn btn-primary' onClick={search}>
+      <button className={`ml-1 btn btn-${theme.color}`} onClick={search}>
         Search
       </button>
     </div>

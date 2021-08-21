@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import ThemeContex from '../../context/themeContext';
 
-const Footer = () => {
-  return <div className='text-center m-3'>Booking 2021</div>;
+const Footer = (props) => {
+  const theme = useContext(ThemeContex);
+  return (
+    <div className={`text-center m-3 text-${theme.color}`}>Booking 2021</div>
+  );
 };
 
 export default Footer;

@@ -17,7 +17,7 @@ class Hotels extends Component {
 }
 
 Hotel.propTypes = {
-  hotels: PropTypes.array.isRequired,
+  hotels: PropTypes.array,
 };
 
 export default Hotels;

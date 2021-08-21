@@ -7,9 +7,12 @@
 
 .menuItem {
   display: inline-block;
-  text-align: center;
+  margin-right: 20px;
 }
 
+.menuItem a {
+  color: gray;
+}
 .menuContainer {
   border: solid 1px crimson;
   margin: 10px;
