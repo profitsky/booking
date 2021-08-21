@@ -1,10 +1,12 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import ThemeContext from '../../context/themeContext';
 
 const SearchBar = (props) => {
   const [term, setTerm] = useState('');
   const theme = useContext(ThemeContext);
+
+  const inputRef = useRef(null);
 
   const updateTermHandler = (e) => {
     setTerm(e.target.value);
@@ -20,9 +22,18 @@ const SearchBar = (props) => {
     }
   };
 
+  const focusInput = () => {
+    inputRef.current.focus();
+  };
+
+  useEffect(() => {
+    focusInput();
+  }, []);
+
   return (
     <div className='d-flex'>
       <input
+        ref={inputRef}
         value={term}
         onKeyDown={onKeyDownHandler}
         onChange={updateTermHandler}

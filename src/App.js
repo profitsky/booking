@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import Hotels from './components/Hotels';
@@ -10,92 +10,104 @@ import Button from './components/UI/Button';
 import ThemeContext from './context/themeContext';
 import AuthContext from './context/authContext';
 
-class App extends Component {
-  hotels = [
-    {
-      id: 1,
-      name: 'Pod akacjami',
-      city: 'Warszawa',
-      rating: 8.3,
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque consequat id lorem vitae accumsan.',
-      image: '',
-    },
-    {
-      id: 2,
-      name: 'Dębowy',
-      city: 'Lublin',
-      rating: 8.8,
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque consequat id lorem vitae accumsan.',
-      image: '',
-    },
-  ];
-  state = {
-    hotels: [],
-    loading: true,
-    theme: 'primary',
-    isAuthenticated: 'false',
-  };
+const initialHotels = [
+  {
+    id: 1,
+    name: 'Pod akacjami',
+    city: 'Warszawa',
+    rating: 8.3,
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque consequat id lorem vitae accumsan.',
+    image: '',
+  },
+  {
+    id: 2,
+    name: 'Dębowy',
+    city: 'Lublin',
+    rating: 8.8,
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque consequat id lorem vitae accumsan.',
+    image: '',
+  },
+];
 
-  searchHandler(term) {
-    const hotels = [...this.hotels].filter((x) =>
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'changeTheme':
+      const newState = { ...state };
+      newState.theme = state.theme === 'danger' ? 'primary' : 'danger';
+      return newState;
+    case 'setHotels':
+      return { ...state, hotels: action.hotels };
+    case 'setLoading':
+      return { ...state, loading: action.loading };
+    case 'login':
+      return { ...state, isAuthenticated: ' true' };
+    case 'logout':
+      return { ...state, isAuthenticated: ' false' };
+    default:
+      throw new Error('wrong type of action' + action.type);
+  }
+};
+
+const initialState = {
+  hotels: [],
+  loading: true,
+  isAuthenticated: false,
+  theme: 'danger',
+};
+
+function App() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch({ type: 'setHotels', hotels: initialHotels });
+      dispatch({ type: 'setLoading', loading: false });
+    }, 1000);
+  }, []);
+
+  const searchHandler = (term) => {
+    const newHotels = [...initialHotels].filter((x) =>
       x.name.toLowerCase().includes(term.toLowerCase())
     );
-    this.setState({ hotels });
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({ hotels: this.hotels, loading: false });
-    }, 1000);
-  }
-
-  changeTheme = () => {
-    const newTheme = this.state.theme === 'primary' ? 'danger' : 'primary';
-    this.setState({ theme: newTheme });
+    dispatch({ type: 'setHotels', hotels: newHotels });
   };
 
-  render() {
-    return (
-      <AuthContext.Provider
+  return (
+    <AuthContext.Provider
+      value={{
+        isAuthenticated: state.isAuthenticated,
+        login: () => {
+          dispatch({ type: 'login' });
+        },
+        logout: () => {
+          dispatch({ type: 'logout' });
+        },
+      }}
+    >
+      <ThemeContext.Provider
         value={{
-          isAuthenticated: this.state.isAuthenticated,
-          login: () => {
-            this.setState({ isAuthenticated: true });
-          },
-          logout: () => {
-            this.setState({ isAuthenticated: false });
-          },
+          color: state.theme,
+          changeTheme: () => dispatch({ type: 'changeTheme' }),
         }}
       >
-        <ThemeContext.Provider
-          value={{
-            color: this.state.theme,
-            changeTheme: this.changeTheme,
-          }}
-        >
-          <Layout
-            header={
-              <Header>
-                <SearchBar onSearch={(term) => this.searchHandler(term)} />
-                <Button />
-              </Header>
-            }
-            menu={<Menu />}
-            content={
-              this.state.loading ? (
-                <LoadingIcon />
-              ) : (
-                <Hotels hotels={this.state.hotels} theme={this.context} />
-              )
-            }
-            footer={<Footer />}
-          />
-        </ThemeContext.Provider>
-      </AuthContext.Provider>
-    );
-  }
+        <Layout
+          header={
+            <Header>
+              <SearchBar onSearch={(term) => searchHandler(term)} />
+              <Button />
+            </Header>
+          }
+          menu={<Menu />}
+          content={
+            state.loading ? <LoadingIcon /> : <Hotels hotels={state.hotels} />
+          }
+          footer={<Footer />}
+        />
+      </ThemeContext.Provider>
+    </AuthContext.Provider>
+  );
 }
 
 export default App;
