@@ -1,9 +1,9 @@
 import React, { useReducer } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import Menu from './components/Menu';
-
+import Hotel from './pages/hotel/index';
 import Footer from './components/Footer';
 import Layout from './components/Layout';
 import Button from './components/UI/Button';
@@ -13,6 +13,7 @@ import InspiringQuote from './components/Inspiring';
 import { initialState, reducer } from './reducer';
 import Home from './pages/home';
 import ReducerContext from './context/reducerContext';
+import LoadingIcon from './components/UI/LoadingIcon';
 
 const initialHotels = [
   {
@@ -54,14 +55,13 @@ function App() {
   );
 
   const content = (
-    <>
-      <Route exact path='/'>
-        <Home />
-      </Route>
-      <Route path='/hotel/:id'>
-        <h1>to jest jakis hotel</h1>
-      </Route>
-    </>
+    <div>
+      <Switch>
+        <Route path='/hotels/:id' component={Hotel}></Route>
+        <Route path='/' component={Home}></Route>
+      </Switch>
+      {state.loading ? <LoadingIcon /> : null}
+    </div>
   );
 
   const menu = <Menu />;
