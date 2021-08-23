@@ -1,23 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 const withMousePosition = (WrappedComponent) => {
-  class Hoc extends Component {
+  class Hoc extends React.Component {
     state = {
       x: 0,
-      y: 0,
+      y: 0
     };
 
     componentDidMount() {
       document.body.addEventListener(
-        'mousemove',
-        this.updateMousePosition.bind(this)
-      );
+          'mousemove', 
+          this.updateMousePostion.bind(this)
+        );
     }
 
-    updateMousePosition(e) {
+    updateMousePostion(e) {
       this.setState({
         x: e.pageX,
-        y: e.pageY,
+        y: e.pageY
       });
     }
 
@@ -26,13 +26,12 @@ const withMousePosition = (WrappedComponent) => {
         <WrappedComponent
           mouseX={this.state.x}
           mouseY={this.state.y}
-          {...this.props}
-        />
+          {...this.props} />
       );
     }
   }
 
   return Hoc;
-};
+}
 
 export default withMousePosition;

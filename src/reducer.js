@@ -1,25 +1,18 @@
 export const reducer = (state, action) => {
   switch (action.type) {
-    case 'changeTheme':
-      const newState = { ...state };
-      newState.theme = state.theme === 'danger' ? 'primary' : 'danger';
-      return newState;
-    case 'setHotels':
-      return { ...state, hotels: action.hotels };
-    case 'setLoading':
-      return { ...state, loading: action.loading };
+    case 'change-theme':
+      const theme = state.theme === 'danger' ? 'primary' : 'danger';
+      return {...state, theme };
     case 'login':
-      return { ...state, isAuthenticated: true };
+      return {...state, isAuthenticated: true };
     case 'logout':
-      return { ...state, isAuthenticated: false };
+      return {...state, isAuthenticated: false };
     default:
-      throw new Error('wrong type of action' + action.type);
+      throw new Error('Nie ma takiej akcji: ' + action.type);
   }
-};
+}
 
-export const initialState = {
-  hotels: [],
-  loading: true,
+export const intialState = {
   isAuthenticated: false,
-  theme: 'danger',
+  theme: 'danger'
 };
